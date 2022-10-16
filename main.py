@@ -1,3 +1,4 @@
+import json
 import sqlite3
 import flask
 
@@ -84,7 +85,7 @@ def step_5(name_1="Rose McIver", name_2="Ben Lamb"):
             else:
                 main_name[name] = 1
 
-    result=[]
+    result = []
     for item in main_name:
         if item not in (name_1, name_2) and main_name[item] >= 2:
             result.append(item)
@@ -92,9 +93,13 @@ def step_5(name_1="Rose McIver", name_2="Ben Lamb"):
     return result
 
 
-
-
-
+def step_6(types="TV Show", release_year=2021, genre="TV"):
+    sql = f''' select * from netflix 
+               where type= {types} 
+               and release_year = {release_year} 
+               and listed_year like '%{genre}%'
+               '''
+    return json.dumps(run_sql(sql), indent=4, ensure_ascii=False)
 
 
 if __name__ == '__main__':
